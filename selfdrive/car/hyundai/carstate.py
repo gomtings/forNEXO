@@ -135,9 +135,9 @@ class CarState(CarStateBase):
     elif self.CP.carFingerprint in FEATURES["use_elect_gears"]:
       gear = cp.vl["ELECT_GEAR"]["Elect_Gear_Shifter"]
       print(gear)
-      if gear != 2570:
-      gear_value = gear
-      print(gear_value)
+      if gear != 2570: # gear 인식을 위한 수정 D/N 은 뭐니 ㅠㅠ
+         gear_temp = gear
+         print(gear_temp)
       if gear in (5, 8):  # 5: D, 8: sport mode
         ret.gearShifter = GearShifter.drive
       elif gear == 6:
