@@ -137,13 +137,13 @@ class CarState(CarStateBase):
       if gear != 2570:
         gear_temp = gear
       else:
-        if gear_temp == 1546:  # 5: D, 8: sport mode 넥소대응
+        if gear == 1546:  # 5: D, 8: sport mode 넥소대응
           ret.gearShifter = GearShifter.drive
-        elif gear_temp == 2314:
+        elif gear == 2314:
           ret.gearShifter = GearShifter.neutral
-        elif gear_temp == 2569:
+        elif gear == 2569:
           ret.gearShifter = GearShifter.park
-        elif gear_temp == 2566:
+        elif gear == 2566:
           ret.gearShifter = GearShifter.reverse
         else:
           ret.gearShifter = GearShifter.unknown
