@@ -138,7 +138,7 @@ class CarState(CarStateBase):
       if gear != 2570: # gear 인식을 위한 수정 D/N 은 뭐니 ㅠㅠ
          gear_temp = gear
          print(gear_temp)
-      if gear_temp = 1546:
+      if gear_temp == 1546:
         ret.gearShifter = GearShifter.drive
       elif gear_temp == 2314:
         ret.gearShifter = GearShifter.neutral
