@@ -134,7 +134,7 @@ class CarState(CarStateBase):
     # Gear Selecton - This is only compatible with optima hybrid 2017
     elif self.CP.carFingerprint in FEATURES["use_elect_gears"]:
       gear = cp.vl["ELECT_GEAR"]["Elect_Gear_Shifter"]
-      #print(gear)
+      print(gear)
      # if gear != 2570: # gear 인식을 위한 수정 D/N 은 뭐니 ㅠㅠ
      #    gear_temp = gear
       #   print(gear_temp)
