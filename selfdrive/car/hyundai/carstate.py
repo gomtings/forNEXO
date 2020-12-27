@@ -140,7 +140,9 @@ class CarState(CarStateBase):
         gear_temp = gear
       if gear == 2570:
         print(gear_disp)
+        print(gear_temp)
       else:
+        print(gear_temp)
         if gear_temp == 1546:  # 5: D, 8: sport mode 넥소대응
           ret.gearShifter = GearShifter.drive
         elif gear_temp == 2314:
