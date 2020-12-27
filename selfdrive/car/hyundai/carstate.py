@@ -136,7 +136,7 @@ class CarState(CarStateBase):
       gear = cp.vl["ELECT_GEAR"]["Elect_Gear_Shifter"]
       gear_value=0
       print(gear)
-      if(gear!=2570)
+      if gear != 2570 :
       gear_value = gear
       print(gear_value)
       if gear in (5, 8):  # 5: D, 8: sport mode
