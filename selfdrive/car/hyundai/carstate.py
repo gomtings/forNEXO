@@ -134,20 +134,21 @@ class CarState(CarStateBase):
     # Gear Selecton - This is only compatible with optima hybrid 2017
     elif self.CP.carFingerprint in FEATURES["use_elect_gears"]:
       gear = cp.vl["ELECT_GEAR"]["Elect_Gear_Shifter"]
-      print(gear)
+      print(gear_temp)
       if gear != 2570:
         gear_temp = gear
-      
-      if gear_temp == 1546:  # 5: D, 8: sport mode 넥소대응
-        ret.gearShifter = GearShifter.drive
-      elif gear_temp == 2314:
-        ret.gearShifter = GearShifter.neutral
-      elif gear_temp == 2569:
-        ret.gearShifter = GearShifter.park
-      elif gear_temp == 2566:
-        ret.gearShifter = GearShifter.reverse
-      else:
-        ret.gearShifter = GearShifter.unknown
+        
+        print(gear_temp)      
+        if gear_temp == 1546:  # 5: D, 8: sport mode 넥소대응
+          ret.gearShifter = GearShifter.drive
+        elif gear_temp == 2314:
+          ret.gearShifter = GearShifter.neutral
+        elif gear_temp == 2569:
+          ret.gearShifter = GearShifter.park
+        elif gear_temp == 2566:
+          ret.gearShifter = GearShifter.reverse
+        else:
+          ret.gearShifter = GearShifter.unknown
     # Gear Selecton - This is not compatible with all Kia/Hyundai's, But is the best way for those it is compatible with
     else:
       gear = cp.vl["LVR12"]["CF_Lvr_Gear"]
