@@ -36,7 +36,7 @@ class CarState(CarStateBase):
     self.cruiseState_enabled = False
     self.cruiseState_speed = 0
     
-   # self.gear_shifter = GearShifter.unknown # Gear_init for Nexo  ?? unknown
+    self.gear_shifter = GearShifter.unknown # Gear_init for Nexo  ?? unknown
 
   def update(self, cp, cp2, cp_cam):
     cp_mdps = cp2 if self.mdps_bus else cp
@@ -135,24 +135,25 @@ class CarState(CarStateBase):
         ret.gearShifter = GearShifter.unknown
     # Gear Selecton - This is only compatible with optima hybrid 2017
     elif self.CP.carFingerprint in FEATURES["use_elect_gears"]:
-      #gear = cp.vl["ELECT_GEAR"]["Elect_Gear_Shifter"]
-      #gear_disp = cp.vl["ELECT_GEAR"]
+      gear = cp.vl["ELECT_GEAR"]["Elect_Gear_Shifter"]
+      gear_disp = cp.vl["ELECT_GEAR"]
+      
+      gear_shifter = GearShifter.unknown
+      
+      if gear == 1546:  # 5: D, 8: sport mode 넥소대응
+        gear_shifter = GearShifter.drive
+      elif gear == 2314:
+        gear_shifter = GearShifter.neutral
+      elif gear == 2569:
+        gear_shifter = GearShifter.park
+      elif gear == 2566:
+        gear_shifter = GearShifter.reverse
 
-      if cp.vl["ELECT_GEAR"]["EGS_InhibitD"] == 1:
-        ret.gearShifter = GearShifter.drive
-      elif cp.vl["ELECT_GEAR"]["EGS_InhibitN"] == 1:
-        ret.gearShifter = GearShifter.neutral
-      elif cp.vl["ELECT_GEAR"]["EGS_InhibitP"] == 1:
-        ret.gearShifter = GearShifter.park
-      elif cp.vl["ELECT_GEAR"]["EGS_InhibitR"] == 1:
-        ret.gearShifter = GearShifter.reverse
-      else:
-       # ret.gearShifter = GearShifter.unknown
+      if gear_shifter != GearShifter.unknown and self.gear_shifter != gear_shifter:
+        self.gear_shifter = gear_shifter
 
-      #if gear_shifter != GearShifter.unknown and self.gear_shifter != gear_shifter:
-       # self.gear_shifter = gear_shifter
+      ret.gearShifter = self.gear_shifter
 
-     # ret.gearShifter = self.gear_shifter
 
     # Gear Selecton - This is not compatible with all Kia/Hyundai's, But is the best way for those it is compatible with
     else:
