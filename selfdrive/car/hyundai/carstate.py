@@ -151,6 +151,7 @@ class CarState(CarStateBase):
         self.gear_shifter = gear_shifter
 
       ret.gearShifter = self.gear_shifter
+
     # Gear Selecton - This is not compatible with all Kia/Hyundai's, But is the best way for those it is compatible with
     else:
       gear = cp.vl["LVR12"]["CF_Lvr_Gear"]
