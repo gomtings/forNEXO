@@ -149,7 +149,7 @@ class CarState(CarStateBase):
       elif gear == 2566:
         gear_shifter = GearShifter.reverse
 
-      if ger_shifter != GearShifter.unknown and self.gear_shifter != GearShifter:
+      if gear_shifter != GearShifter.unknown and self.gear_shifter != gear_shifter:
         self.gear_shifter = gear_shifter
 
       ret.gearShifter = self.gear_shifter
