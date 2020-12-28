@@ -36,7 +36,7 @@ class CarState(CarStateBase):
     self.cruiseState_enabled = False
     self.cruiseState_speed = 0
     
-    self.gear_shifter = GearShifter.drive # Gear_init for Nexo
+    self.gear_shifter = GearShifter.drive # Gear_init for Nexo  ?? unknown
 
   def update(self, cp, cp2, cp_cam):
     cp_mdps = cp2 if self.mdps_bus else cp
@@ -149,7 +149,7 @@ class CarState(CarStateBase):
       elif gear == 2566:
         gear_shifter = GearShifter.reverse
 
-      if self.gear_shifter != gear_shifter:
+      if ger_shifter != GearShifter.unknown and self.gear_shifter != GearShifter:
         self.gear_shifter = gear_shifter
 
       ret.gearShifter = self.gear_shifter
