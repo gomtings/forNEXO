@@ -135,7 +135,7 @@ class CarState(CarStateBase):
     elif self.CP.carFingerprint in FEATURES["use_elect_gears"]:
       gear = cp.vl["ELECT_GEAR"]["Elect_Gear_Shifter"]
       gear_disp = cp.vl["ELECT_GEAR"]
-      
+
       gear_shifter = GearShifter.unknown
 
       if gear == 1546:  # 5: D, 8: sport mode 넥소대응
