@@ -215,7 +215,7 @@ class CarController():
 
         if self.resume_cnt >= 8:
           self.resume_cnt = 0
-          self.resume_wait_timer = SccSmoother.get_wait_count()
+          self.resume_wait_timer = SccSmoother.get_wait_count() * 2
 
     # reset lead distnce after the car starts moving
     elif self.last_lead_distance != 0:

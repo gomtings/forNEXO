@@ -16,8 +16,9 @@ MAX_SET_SPEED = V_CRUISE_MAX
 LIMIT_ACCEL = 10.
 LIMIT_DECEL = 18.
 
-ALIVE_COUNT = 8
-WAIT_COUNT = [10, 12, 14, 16]
+ALIVE_COUNT = [6, 8]
+WAIT_COUNT = [12, 13, 14, 15, 16]
+AliveIndex = 0
 WaitIndex = 0
 
 EventName = car.CarEvent.EventName
@@ -34,6 +35,15 @@ class CruiseState:
 
 class SccSmoother:
 
+   @staticmethod
+  def get_alive_count():
+    global AliveIndex
+    count = ALIVE_COUNT[AliveIndex]
+    AliveIndex += 1
+    if AliveIndex >= len(ALIVE_COUNT):
+      AliveIndex = 0
+    return count
+    
   @staticmethod
   def get_wait_count():
     global WaitIndex
@@ -98,7 +108,7 @@ class SccSmoother:
     return packer.make_can_msg("CLU11", bus, values)
 
   def is_active(self, frame):
-    return frame - self.started_frame <= ALIVE_COUNT + max(WAIT_COUNT)
+      return frame - self.started_frame <= max(ALIVE_COUNT) + max(WAIT_COUNT)
 
   def dispatch_buttons(self, CC, CS):
     changed = False
@@ -187,9 +197,10 @@ class SccSmoother:
       #  .format(float(apply_accel*CV.MS_TO_KPH), int(CS.acc_mode), int(enabled), int(CS.cruiseState_enabled), int(CS.standstill), float(CS.cruiseState_speed),
       #          int(CS.cruise_buttons), int(CS.brake_pressed), int(CS.gas_pressed))
 
-      CC.sccSmoother.logMessage = max_speed_log
+      #CC.sccSmoother.logMessage = max_speed_log
+       CC.sccSmoother.logMessage = ""
       self.reset()
-      self.wait_timer = ALIVE_COUNT + max(WAIT_COUNT)
+      self.wait_timer = max(ALIVE_COUNT) + max(WAIT_COUNT)
       return
 
     current_set_speed = CS.cruiseState_speed * CV.MS_TO_KPH
@@ -217,7 +228,7 @@ class SccSmoother:
 
       if self.alive_timer == 0:
         self.btn = self.get_button(clu11_speed, current_set_speed)
-        self.alive_count = ALIVE_COUNT
+         self.alive_count = SccSmoother.get_alive_count()
 
       if self.btn != Buttons.NONE:
         can_sends.append(SccSmoother.create_clu11(packer, self.alive_timer, CS.scc_bus, CS.clu11, self.btn))
@@ -292,8 +303,7 @@ class SccSmoother:
         override_acc = acc
         accel = (op_accel + acc) / 2.
       else:
-        accel = op_accel * interp(clu11_speed, [0., 30., 38., 50., 51., 60., 100.],
-                                  [2.3, 3.4, 3.2, 1.7, 1.65, 1.4, 1.0])
+         accel = op_accel * interp(clu11_speed, [0., 30., 38., 50., 51., 60., 100.], [2.3, 3.4, 3.2, 1.7, 1.65, 1.4, 1.0])
 
     if accel > 0.:
       accel *= self.accel_gain * interp(clu11_speed, [35., 60., 100.], [1.5, 1.25, 1.2])
