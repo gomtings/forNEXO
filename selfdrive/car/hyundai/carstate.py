@@ -146,7 +146,7 @@ class CarState(CarStateBase):
         ret.gearShifter = GearShifter.park
       elif cp.vl["ELECT_GEAR"]["EGS_InhibitR"] == 1:
         ret.gearShifter = GearShifter.reverse
-      else:
+      #else:
         #ret.gearShifter = GearShifter.unknown
 
     # Gear Selecton - This is not compatible with all Kia/Hyundai's, But is the best way for those it is compatible with
