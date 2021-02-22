@@ -22,7 +22,7 @@ def main():
     if shutdown_count >= shutdown_at > 0:
       os.system('LD_LIBRARY_PATH="" svc power shutdown')
 
-    time.sleep(10)
+    time.sleep(10) # 종료 시간ㄴ
 
 
 if __name__ == "__main__":

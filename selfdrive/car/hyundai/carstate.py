@@ -35,6 +35,8 @@ class CarState(CarStateBase):
     self.standstill = False
     self.cruiseState_enabled = False
     self.cruiseState_speed = 0
+    
+    self.gear_shifter = GearShifter.drive # Gear_init for Nexo  ?? unknown 21.02.23.LSW
 
   def update(self, cp, cp2, cp_cam):
     cp_mdps = cp2 if self.mdps_bus else cp
@@ -139,18 +141,25 @@ class CarState(CarStateBase):
       else:
         ret.gearShifter = GearShifter.unknown
     # Gear Selecton - This is only compatible with optima hybrid 2017
-    elif self.CP.carFingerprint in FEATURES["use_elect_gears"]:
+    elif self.CP.carFingerprint in FEATURES["use_elect_gears"]: #  Nexo elect_Gear only !!!
       gear = cp.vl["ELECT_GEAR"]["Elect_Gear_Shifter"]
-      if gear in (5, 8):  # 5: D, 8: sport mode
-        ret.gearShifter = GearShifter.drive
-      elif gear == 6:
-        ret.gearShifter = GearShifter.neutral
-      elif gear == 0:
-        ret.gearShifter = GearShifter.park
-      elif gear == 7:
-        ret.gearShifter = GearShifter.reverse
-      else:
-        ret.gearShifter = GearShifter.unknown
+      gear_disp = cp.vl["ELECT_GEAR"]
+      
+      gear_shifter = GearShifter.unknown
+      
+      if gear == 1546:  # Thank you for Neokii 
+        gear_shifter = GearShifter.drive
+      elif gear == 2314:
+        gear_shifter = GearShifter.neutral
+      elif gear == 2569:
+        gear_shifter = GearShifter.park
+      elif gear == 2566:
+        gear_shifter = GearShifter.reverse
+
+      if gear_shifter != GearShifter.unknown and self.gear_shifter != gear_shifter:
+        self.gear_shifter = gear_shifter
+
+      ret.gearShifter = self.gear_shifter
     # Gear Selecton - This is not compatible with all Kia/Hyundai's, But is the best way for those it is compatible with
     else:
       gear = cp.vl["LVR12"]["CF_Lvr_Gear"]
