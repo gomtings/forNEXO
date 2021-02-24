@@ -618,7 +618,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.NO_ENTRY: NoEntryAlert("장치 프로세스 통신오류",
                               audible_alert=AudibleAlert.chimeDisengage),
   },
-
+  
   EventName.radarCommIssue: {
     ET.SOFT_DISABLE: SoftDisableAlert("차량 레이더 통신오류"),
     ET.NO_ENTRY: NoEntryAlert("차량 레이더 통신오류",
